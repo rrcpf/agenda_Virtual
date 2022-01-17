@@ -2,45 +2,58 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
-public class Agenda {
-    private int id;
+public class Agenda implements IAgenda {
+    private int incrementador = 0;
+    private int id = 0;
     private Color color;
     private String name;
     private Usuario creator;
-    private ArrayList <Usuario> shared_Users;
-    private ArrayList <Evento> eventos;
+    private ArrayList<IUsuario> shared_Users;
+    private ArrayList<IEvento> eventos;
 
-
-    public Agenda (int id, Color color, String name, Usuario creator){
+    public Agenda(int id, Color color, String name, Usuario creator) {
         this.id = id;
         this.color = color;
         this.name = name;
         this.creator = creator;
-        this.shared_Users = new ArrayList<Usuario>();
-        this.eventos = new ArrayList<Evento>();
+        this.shared_Users = new ArrayList<IUsuario>();
+        this.eventos = new ArrayList<IEvento>();
     }
 
-    public boolean excluirEvento(Evento e){
-        boolean bool = true;
-        return bool;
+    @Override
+    public boolean excluirEvento(IEvento evento) {
+        return this.eventos.remove(evento);
     }
 
-    public boolean compartilharUsuário(Usuario u){
-        boolean bool = true;
-        return bool;
+    @Override
+    public boolean compartilhar(IUsuario usuario) {
+        return this.shared_Users.add(usuario);
     }
 
-    public ArrayList <Evento> exibirEventos(){
-        return this.eventos;
+    @Override
+    public Evento criarEvento( LocalDate data, String description) {
+        this.incrementador++;
+        var event = new Evento(incrementador, data, description); // valores de placeholder
+        this.eventos.add(event);
+
+        return event;
     }
 
-    public Evento criarEvento(){
-        int id = 1;
-        LocalDate data = LocalDate.now();  
-        String description = "teste";
-        Evento e = new Evento(id,data,description); // valores de placeholder
-        eventos.add(e);
-        return e;
+    @Override
+    public void imprimir() {
+        System.out.println("Agenda: " + this.name + " ---- " + this.color.toString());
+        this.exibirEventos();
+        System.out.println("\n");
     }
 
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    private void exibirEventos() {
+        for (var evento : this.eventos) {
+            evento.imprimir();
+        }
+    }
 }
