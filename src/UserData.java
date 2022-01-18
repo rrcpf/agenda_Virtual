@@ -6,6 +6,7 @@ public class UserData {
     private ArrayList<IUsuario> usuarios;
 
     public UserData() {
+        usuarios = new  ArrayList<IUsuario>();
         var usuario = new Usuario("teste", "1", "teste@email.com", 0);
         this.usuarios.add(usuario);
     }
@@ -27,7 +28,7 @@ public class UserData {
         Iterator<IUsuario> it = this.usuarios.iterator();
         while(it.hasNext()) {
             IUsuario i = it.next();
-            if(i.getUsername() == username) {
+            if(i.getUsername().equals(username)) {
                 return i;
             }
         }
