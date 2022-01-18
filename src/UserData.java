@@ -23,7 +23,7 @@ public class UserData {
         return usuario.get();
     }
 
-    public IUsuario get_user(String username){
+    public IUsuario getUser(String username){
         Iterator<IUsuario> it = this.usuarios.iterator();
         while(it.hasNext()) {
             IUsuario i = it.next();
@@ -34,7 +34,7 @@ public class UserData {
         return null;
     }
 
-    public IUsuario get_user(int id){
+    public IUsuario getUser(int id){
         Iterator<IUsuario> it = this.usuarios.iterator();
         while(it.hasNext()) {
             IUsuario i = it.next();
