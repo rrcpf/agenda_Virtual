@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
+import java.util.stream.*;
 
 public class ScheduleData {
     private ArrayList<IAgenda> agendas;
@@ -31,10 +31,14 @@ public class ScheduleData {
     }
 
     public void addSchedule(IAgenda agenda){
-        agendas.add(agenda)
+        agendas.add(agenda);
     }
 
     public void remove_user(int id){
         this.agendas.removeIf(u -> u.getID() == id);
+    }
+
+    public ArrayList<IAgenda> listSchedules(int id){
+        return this.agendas.stream().filter(s -> s.getCreator().getId() == id || Arrays.asList(s.getSharedUsers().stream().map(u -> u.getId()).toArray()).contains((Object)id)).collect(Collectors.toCollection(ArrayList::new));
     }
 }

@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public interface IAgenda {
     boolean excluirEvento(IEvento evento);
@@ -12,4 +13,8 @@ public interface IAgenda {
     String getName();
 
     int getID();
+
+    void exibirEventos();
+    ArrayList<IUsuario> getSharedUsers();
+    Usuario getCreator();
 }
