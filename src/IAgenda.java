@@ -10,4 +10,6 @@ public interface IAgenda {
     void imprimir();
 
     String getName();
+
+    int getID();
 }

@@ -51,6 +51,11 @@ public class Agenda implements IAgenda {
         return this.name;
     }
 
+    @Override
+    public int getID() {
+        return this.id;
+    }
+
     private void exibirEventos() {
         for (var evento : this.eventos) {
             evento.imprimir();
