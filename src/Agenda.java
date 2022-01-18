@@ -56,9 +56,20 @@ public class Agenda implements IAgenda {
         return this.id;
     }
 
-    private void exibirEventos() {
+    @Override
+    private String exibirEventos() {
         for (var evento : this.eventos) {
             evento.imprimir();
         }
+    }
+
+    @Override
+    ArrayList<IUsuario>  getSharedUsers() {
+
+    }
+
+    @Override
+    Usuario getCreator() {
+
     }
 }
