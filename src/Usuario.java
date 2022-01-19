@@ -1,6 +1,3 @@
-import java.awt.Color;
-import java.util.ArrayList;
-
 public class Usuario implements IUsuario {
     private int id;
     private String username;
