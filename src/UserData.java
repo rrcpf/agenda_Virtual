@@ -1,18 +1,19 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 
 public class UserData {
     private ArrayList<IUsuario> usuarios;
 
     public UserData() {
         usuarios = new  ArrayList<IUsuario>();
-        var usuario = new Usuario("teste", "1", "teste@email.com", 0);
+        IUsuario usuario = new Usuario("teste", "1", "teste@email.com", 0);
         this.usuarios.add(usuario);
     }
 
     public IUsuario autenticar(String username, String password) {
-        var usuario = this.usuarios.stream().filter(f -> f.getUsername().equals(username)).findFirst();
+        Optional<IUsuario> usuario = this.usuarios.stream().filter(f -> f.getUsername().equals(username)).findFirst();
         if (usuario == null) {
             return null;
         }
@@ -47,7 +48,7 @@ public class UserData {
     }
 
     public void addUser(String username, String password, String email){
-        var usuario = new Usuario(username, password, email, this.usuarios.size());
+        IUsuario usuario = new Usuario(username, password, email, this.usuarios.size());
         this.usuarios.add(usuario);
     }
 

@@ -12,7 +12,12 @@ public class Evento implements IEvento {
     }
 
     @Override
+    public int getID() {
+        return this.id;
+    }
+
+    @Override
     public void imprimir() {
-        System.out.println(this.id + " " + this.data.toString() + " - "  + this.description + " - ");
+        System.out.println(this.id + " - " + this.data.toString() + " - "  + this.description + "\n");
     }
 }

@@ -1,19 +1,15 @@
-import java.awt.Color;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
 public class Agenda implements IAgenda {
-    private int incrementador = 0;
     private int id = 0;
-    private Color color;
     private String name;
-    private Usuario creator;
+    private IUsuario creator;
     private ArrayList<IUsuario> shared_Users;
     private ArrayList<IEvento> eventos;
 
-    public Agenda(int id, Color color, String name, Usuario creator) {
+    public Agenda(int id, String name, IUsuario creator) {
         this.id = id;
-        this.color = color;
         this.name = name;
         this.creator = creator;
         this.shared_Users = new ArrayList<IUsuario>();
@@ -21,8 +17,8 @@ public class Agenda implements IAgenda {
     }
 
     @Override
-    public boolean excluirEvento(IEvento evento) {
-        return this.eventos.remove(evento);
+    public boolean excluirEvento(int id) {
+        return this.eventos.removeIf(e -> e.getID() == id);
     }
 
     @Override
@@ -31,19 +27,16 @@ public class Agenda implements IAgenda {
     }
 
     @Override
-    public Evento criarEvento( LocalDate data, String description) {
-        this.incrementador++;
-        var event = new Evento(incrementador, data, description); // valores de placeholder
-        this.eventos.add(event);
+    public boolean criarEvento(LocalDate data, String description) {
+        IEvento event = new Evento(eventos.size() + 1, data, description); // valores de placeholder
 
-        return event;
+        return this.eventos.add(event);
     }
 
     @Override
     public void imprimir() {
-        System.out.println("Agenda: " + this.name + " ---- " + this.color.toString());
+        System.out.println("Agenda: " + this.name);
         this.exibirEventos();
-        System.out.println("\n");
     }
 
     @Override
@@ -58,7 +51,7 @@ public class Agenda implements IAgenda {
 
     @Override
     public void exibirEventos() {
-        for (var evento : this.eventos) {
+        for (IEvento evento : this.eventos) {
             evento.imprimir();
         }
     }
@@ -69,7 +62,7 @@ public class Agenda implements IAgenda {
     }
 
     @Override
-    public Usuario getCreator() {
+    public IUsuario getCreator() {
         return this.creator;
     }
 }

@@ -1,5 +1,4 @@
-import java.time.LocalDate;
-
 public interface IEvento {
+    int getID();
     void imprimir();
 }

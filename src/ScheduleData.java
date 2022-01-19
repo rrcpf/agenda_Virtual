@@ -19,26 +19,30 @@ public class ScheduleData {
         return null;
     }
 
-    public IAgenda getAgenda(String name){
+    public IAgenda getAgenda(String name, IUsuario creator){
         Iterator<IAgenda> it = this.agendas.iterator();
         while(it.hasNext()) {
             IAgenda i = it.next();
-            if(i.getName().equals(name)) {
+            if(i.getName().equals(name) && i.getCreator().getId() == creator.getId()) {
                 return i;
             }
         }
+
         return null;
     }
 
-    public void addSchedule(IAgenda agenda){
-        agendas.add(agenda);
+    public void addSchedule(String name, IUsuario creator){
+        this.agendas.add(new Agenda(this.agendas.size(), name, creator));
     }
 
-    public void removeSchedule(int id){
-        this.agendas.removeIf(u -> u.getID() == id);
+    public boolean removeSchedule(String name, IUsuario criador){
+        return this.agendas.removeIf(a -> a.getName().equals(name)
+                && a.getCreator().getId() == criador.getId());
     }
 
-    public ArrayList<IAgenda> listSchedules(int id){
-        return this.agendas.stream().filter(s -> s.getCreator().getId() == id || Arrays.asList(s.getSharedUsers().stream().map(u -> u.getId()).toArray()).contains((Object)id)).collect(Collectors.toCollection(ArrayList::new));
+    public ArrayList<IAgenda> listSchedules(int id) {
+        return this.agendas.stream().filter(s -> s.getCreator().getId() == id
+                || Arrays.asList(s.getSharedUsers().stream().map(u -> u.getId()).toArray()).contains((Object)id))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

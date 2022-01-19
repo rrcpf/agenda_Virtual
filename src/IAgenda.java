@@ -2,11 +2,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface IAgenda {
-    boolean excluirEvento(IEvento evento);
+    boolean excluirEvento(int id);
 
     boolean compartilhar(IUsuario usuario);
 
-    Evento criarEvento(LocalDate data, String description);
+    boolean criarEvento(LocalDate data, String description);
 
     void imprimir();
 
@@ -18,5 +18,5 @@ public interface IAgenda {
 
     ArrayList<IUsuario> getSharedUsers();
 
-    Usuario getCreator();
+    IUsuario getCreator();
 }

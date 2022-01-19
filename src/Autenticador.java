@@ -7,6 +7,6 @@ public class Autenticador {
     }
 
     public static boolean autenticar(String p1, String p2) {
-        return p1 == p2;
+        return p1.equals(p2);
     }
 }
