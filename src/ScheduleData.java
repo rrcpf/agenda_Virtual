@@ -34,7 +34,7 @@ public class ScheduleData {
         agendas.add(agenda);
     }
 
-    public void remove_user(int id){
+    public void removeSchedule(int id){
         this.agendas.removeIf(u -> u.getID() == id);
     }
 

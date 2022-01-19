@@ -46,12 +46,12 @@ public class UserData {
         return null;
     }
 
-    public void add_user(String username, String password, String email){
+    public void addUser(String username, String password, String email){
         var usuario = new Usuario(username, password, email, this.usuarios.size());
         this.usuarios.add(usuario);
     }
 
-    public void remove_user(int id){
+    public void removeUser(int id){
         /*Iterator<IUsuario> it = this.usuarios.iterator();
         while(it.hasNext()) {
         IUsuario i = it.next();

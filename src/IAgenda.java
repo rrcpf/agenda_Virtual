@@ -15,6 +15,8 @@ public interface IAgenda {
     int getID();
 
     void exibirEventos();
+
     ArrayList<IUsuario> getSharedUsers();
+
     Usuario getCreator();
 }

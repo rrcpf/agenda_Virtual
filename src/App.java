@@ -42,9 +42,8 @@ public class App {
             default:
                 return 0;
         }
-        
-        
     }
+
     public static int getcommand(){
         IAgenda schedule = null;
         System.out.println("==== Bem vindo ====");
