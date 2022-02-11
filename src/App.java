@@ -13,7 +13,7 @@ public class App {
     static UserData ud = new UserData();
     static ScheduleData sd = new ScheduleData();
     static Scanner input = new Scanner(System.in);
-    static IUsuario usuarioLogado;
+    static IUser loggedUser;
     static int loggedAs = UNLOGGED;
     
 
@@ -30,9 +30,9 @@ public class App {
     }
     public static int autenticate(){
         App.printMenu(LOGINSCREEN);
-        String cadastro = App.input.nextLine();
+        String register = App.input.nextLine();
 
-        switch (cadastro) {
+        switch (register) {
             case "0":
                 return EXIT;
             case "1":
@@ -46,9 +46,9 @@ public class App {
     }
 
     public static int getCommand(){
-        ArrayList<IAgenda> agendas = null;
-        IAgenda agenda = null;
-        String nomeAgenda = "";
+        ArrayList<ISchedule> agendas = null;
+        ISchedule schedule = null;
+        String scheduleName = "";
         App.printMenu(COMMANDSCREEN);
         String choice = App.input.nextLine();
         switch(choice){
@@ -61,34 +61,34 @@ public class App {
                 break;
             case "2":
                 // Adiciona Agenda
-                nomeAgenda = askInput("agenda");          
-                addAgenda(nomeAgenda);;
+                scheduleName = askInput("agenda");
+                addSchedule(scheduleName);;
                 break;
             case "3":
                 //Exclui Agenda
-                nomeAgenda = askInput("agenda");
-                removeAgenda(nomeAgenda);
+                scheduleName = askInput("agenda");
+                removeSchedule(scheduleName);
                 break;
             case "4":
                 //Adiciona Evento
-                nomeAgenda = askInput("agenda");
-                addEvent(nomeAgenda, agenda);
+                scheduleName = askInput("agenda");
+                addEvent(scheduleName, schedule);
                 break;
             case "5":
                 //Remove Evento
-                nomeAgenda = askInput("agenda");
-                removeEvent(nomeAgenda, agenda);
+                scheduleName = askInput("agenda");
+                removeEvent(scheduleName, schedule);
                 break;
             case "6":
                 //Compartilha Agenda
-                nomeAgenda = askInput("agenda");
+                scheduleName = askInput("agenda");
                 
-                shareAgenda(nomeAgenda, agenda);
+                shareAgenda(scheduleName, schedule);
                 break;
             case "7":
                 //Exibe Agenda
-                nomeAgenda = askInput("agenda");
-                showAgenda(nomeAgenda, agenda);
+                scheduleName = askInput("agenda");
+                showAgenda(scheduleName, schedule);
     
                 break;
         }
@@ -121,82 +121,88 @@ public class App {
 
     public static void signup(){
         String userReg = App.askInput("usuário");
-        String senhaReg = App.askInput("senha");
+        String passwordReg = App.askInput("senha");
         String email = App.askInput("email");
-        App.ud.addUser(userReg, senhaReg, email);
+        App.ud.addUser(userReg, passwordReg, email);
     }
 
     public static int login(){
         String user = App.askInput("usuário");
-        App.loggedAs = App.ud.getUser(user).getId();
-        String senha = App.askInput("senha");
-        usuarioLogado = App.ud.getUser(user);
-        return Autenticador.autenticar(senha, usuarioLogado.getPassword()) ? COMMANDSCREEN : LOGINSCREEN;
+        loggedUser = App.ud.getUser(user);
+
+        if (loggedUser == null) {
+            System.out.print("Usuário não encontrado \n");
+            return 0;
+        }
+
+        App.loggedAs = loggedUser.getId();
+        String password = App.askInput("senha");
+        return Auth.singIn(password, loggedUser.getPassword()) ? COMMANDSCREEN : LOGINSCREEN;
     }
  
-    public static void showCalendar(ArrayList<IAgenda> agendas){
-        agendas = sd.listSchedules(usuarioLogado.getId());
+    public static void showCalendar(ArrayList<ISchedule> Schedules){
+        Schedules = sd.listSchedules(loggedUser.getId());
 
-                if (agendas.isEmpty()) {
+                if (Schedules.isEmpty()) {
                     System.out.print("Nenhuma agenda encontrada \n");
                 }
 
-                for (IAgenda agendaUsuario : agendas) {
-                    agendaUsuario.printAgenda();
+                for (ISchedule scheduleUser : Schedules) {
+                    scheduleUser.printSchedule();
                 }
     }
 
-    public static void addAgenda(String nomeAgenda){
-        sd.addSchedule(nomeAgenda, usuarioLogado);
+    public static void addSchedule(String scheduleName){
+        sd.addSchedule(scheduleName, loggedUser);
     }
 
-    public static void removeAgenda(String nomeAgenda){
-        if (sd.removeSchedule(nomeAgenda, usuarioLogado)){
+    public static void removeSchedule(String agendaName){
+        if (sd.removeSchedule(agendaName, loggedUser)){
             System.out.print("Agenda removida com sucesso! \n");
         } else {
             System.out.print("Falha ao remover! \n");
         }
     }
 
-    public static void addEvent(String nomeAgenda, IAgenda agenda){
+    public static void addEvent(String scheduleName, ISchedule schedule){
  
         System.out.print("Digite a descrição do evento: ");
-        String descricaoEvento = App.input.nextLine();
+        String eventDescription = App.input.nextLine();
         System.out.print("Digite a data do evento (dd/MM/yyyy): ");
-        String data = App.input.nextLine();
+        String date = App.input.nextLine();
 
-        agenda = sd.getAgenda(nomeAgenda, usuarioLogado);
+        schedule = sd.getSchedule(scheduleName, loggedUser);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate localDate = LocalDate.parse(data, formatter);
+        LocalDate localDate = LocalDate.parse(date, formatter);
 
-        agenda.createEvent(localDate, descricaoEvento);
+        schedule.createEvent(localDate, eventDescription);
     }
 
-    public static void removeEvent(String nomeAgenda, IAgenda agenda){
+    public static void removeEvent(String scheduleName, ISchedule schedule){
         System.out.print("Digite o id do evento: ");
         String idEvento = App.input.nextLine();
 
-        agenda = sd.getAgenda(nomeAgenda, usuarioLogado);
-        agenda.removeEvent(Integer.parseInt(idEvento));
+        schedule = sd.getSchedule(scheduleName, loggedUser);
+        schedule.removeEvent(Integer.parseInt(idEvento));
     }
 
-    public static void shareAgenda(String nomeAgenda, IAgenda agenda){
+    public static void shareAgenda(String scheduleName, ISchedule schedule){
         String userName = App.askInput("usuário");
-        agenda = sd.getAgenda(nomeAgenda, usuarioLogado);
-        IUsuario usuario = ud.getUser(userName);
-        agenda.share(usuario);
+        schedule = sd.getSchedule(scheduleName, loggedUser);
+        IUser user = ud.getUser(userName);
+        schedule.share(user);
 
     }
 
-    public static void showAgenda(String nomeAgenda, IAgenda agenda){
-        agenda = sd.getAgenda(nomeAgenda, usuarioLogado);
+    public static void showAgenda(String scheduleName, ISchedule schedule){
+        schedule = sd.getSchedule(scheduleName, loggedUser);
 
-        if (agenda == null) {
+        if (schedule == null) {
             System.out.print("Nenhuma agenda encontrada \n");
             return;
         }
 
-        agenda.printAgenda();
+        schedule.printSchedule();
     }
 
     public static void exitCommandScreen(){

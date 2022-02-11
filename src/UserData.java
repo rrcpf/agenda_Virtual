@@ -3,20 +3,20 @@ import java.util.Iterator;
 import java.util.Optional;
 
 public class UserData {
-    private ArrayList<IUsuario> usuarios;
+    private ArrayList<IUser> usuarios;
 
     public UserData() {
-        usuarios = new  ArrayList<IUsuario>();
+        usuarios = new  ArrayList<IUser>();
         initialize();
     }
 
     private void initialize(){
-        IUsuario usuario = new Usuario("teste", "1", "teste@email.com", 0);
+        IUser usuario = new User("teste", "1", "teste@email.com", 0);
         this.usuarios.add(usuario);
     }
 
-    public IUsuario autenticate(String username, String password) {
-        Optional<IUsuario> usuario = this.usuarios.stream().filter(f -> f.getUsername().equals(username)).findFirst();
+    public IUser autenticate(String username, String password) {
+        Optional<IUser> usuario = this.usuarios.stream().filter(f -> f.getUsername().equals(username)).findFirst();
         if (usuario == null) {
             return null;
         }
@@ -28,10 +28,10 @@ public class UserData {
         return usuario.get();
     }
 
-    public IUsuario getUser(String username){
-        Iterator<IUsuario> it = this.usuarios.iterator();
+    public IUser getUser(String username){
+        Iterator<IUser> it = this.usuarios.iterator();
         while(it.hasNext()) {
-            IUsuario i = it.next();
+            IUser i = it.next();
             if(i.getUsername().equals(username)) {
                 return i;
             }
@@ -39,10 +39,10 @@ public class UserData {
         return null;
     }
 
-    public IUsuario getUser(int id){
-        Iterator<IUsuario> it = this.usuarios.iterator();
+    public IUser getUser(int id){
+        Iterator<IUser> it = this.usuarios.iterator();
         while(it.hasNext()) {
-            IUsuario i = it.next();
+            IUser i = it.next();
             if(i.getId() == id) {
                 return i;
             }
@@ -51,7 +51,7 @@ public class UserData {
     }
 
     public void addUser(String username, String password, String email){
-        IUsuario usuario = new Usuario(username, password, email, this.usuarios.size());
+        IUser usuario = new User(username, password, email, this.usuarios.size());
         this.usuarios.add(usuario);
     }
 

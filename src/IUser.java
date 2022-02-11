@@ -1,4 +1,4 @@
-public interface IUsuario {
+public interface IUser {
     String getUsername();
 
     int getId();

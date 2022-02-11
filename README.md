@@ -1,4 +1,4 @@
-## Agenda Virtual
+## Schedule Virtual
 Um simples aplicativo de agenda.
 
 # Integrantes:

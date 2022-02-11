@@ -1,10 +1,10 @@
-public class Usuario implements IUsuario {
+public class User implements IUser {
     private int id;
     private String username;
     private String password;
     private String email;
 
-    public Usuario (String username, String password, String email, int id){
+    public User(String username, String password, String email, int id){
         this.username = username;
         this.password = password;
         this.email = email;

@@ -2,16 +2,16 @@ import java.util.*;
 import java.util.stream.*;
 
 public class ScheduleData {
-    private ArrayList<IAgenda> agendas;
+    private ArrayList<ISchedule> agendas;
 
     public ScheduleData(){
-        agendas = new ArrayList<IAgenda>();
+        agendas = new ArrayList<ISchedule>();
     }
 
-    public IAgenda getAgenda(int id){
-        Iterator<IAgenda> it = this.agendas.iterator();
+    public ISchedule getSchedule(int id){
+        Iterator<ISchedule> it = this.agendas.iterator();
         while(it.hasNext()) {
-            IAgenda i = it.next();
+            ISchedule i = it.next();
             if(i.getID() == id) {
                 return i;
             }
@@ -19,10 +19,10 @@ public class ScheduleData {
         return null;
     }
 
-    public IAgenda getAgenda(String name, IUsuario creator){
-        Iterator<IAgenda> it = this.agendas.iterator();
+    public ISchedule getSchedule(String name, IUser creator){
+        Iterator<ISchedule> it = this.agendas.iterator();
         while(it.hasNext()) {
-            IAgenda i = it.next();
+            ISchedule i = it.next();
             if(i.getName().equals(name) && i.getCreator().getId() == creator.getId()) {
                 return i;
             }
@@ -31,16 +31,16 @@ public class ScheduleData {
         return null;
     }
 
-    public void addSchedule(String name, IUsuario creator){
-        this.agendas.add(new Agenda(this.agendas.size(), name, creator));
+    public void addSchedule(String name, IUser creator){
+        this.agendas.add(new Schedule(this.agendas.size(), name, creator));
     }
 
-    public boolean removeSchedule(String name, IUsuario criador){
+    public boolean removeSchedule(String name, IUser criador){
         return this.agendas.removeIf(a -> a.getName().equals(name)
                 && a.getCreator().getId() == criador.getId());
     }
 
-    public ArrayList<IAgenda> listSchedules(int id) {
+    public ArrayList<ISchedule> listSchedules(int id) {
         return this.agendas.stream().filter(s -> s.getCreator().getId() == id
                 || Arrays.asList(s.getSharedUsers().stream().map(u -> u.getId()).toArray()).contains((Object)id))
                 .collect(Collectors.toCollection(ArrayList::new));
