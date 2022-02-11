@@ -5,38 +5,38 @@ public class Agenda implements IAgenda {
     private int id = 0;
     private String name;
     private IUsuario creator;
-    private ArrayList<IUsuario> shared_Users;
+    private ArrayList<IUsuario> sharedUsers;
     private ArrayList<IEvento> eventos;
 
     public Agenda(int id, String name, IUsuario creator) {
         this.id = id;
         this.name = name;
         this.creator = creator;
-        this.shared_Users = new ArrayList<IUsuario>();
+        this.sharedUsers = new ArrayList<IUsuario>();
         this.eventos = new ArrayList<IEvento>();
     }
 
     @Override
-    public boolean excluirEvento(int id) {
+    public boolean removeEvent(int id) {
         return this.eventos.removeIf(e -> e.getID() == id);
     }
 
     @Override
-    public boolean compartilhar(IUsuario usuario) {
-        return this.shared_Users.add(usuario);
+    public boolean share(IUsuario usuario) {
+        return this.sharedUsers.add(usuario);
     }
 
     @Override
-    public boolean criarEvento(LocalDate data, String description) {
-        IEvento event = new Evento(eventos.size() + 1, data, description); // valores de placeholder
+    public boolean createEvent(LocalDate data, String description) {
+        IEvento event = new Evento(eventos.size(), data, description);
 
         return this.eventos.add(event);
     }
 
     @Override
-    public void imprimir() {
+    public void printAgenda() {
         System.out.println("Agenda: " + this.name);
-        this.exibirEventos();
+        this.showEvents();
     }
 
     @Override
@@ -50,15 +50,15 @@ public class Agenda implements IAgenda {
     }
 
     @Override
-    public void exibirEventos() {
+    public void showEvents() {
         for (IEvento evento : this.eventos) {
-            evento.imprimir();
+            evento.printEvent();
         }
     }
 
     @Override
     public ArrayList<IUsuario>  getSharedUsers() {
-        return this.shared_Users;
+        return this.sharedUsers;
     }
 
     @Override

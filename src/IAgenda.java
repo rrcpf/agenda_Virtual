@@ -2,19 +2,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface IAgenda {
-    boolean excluirEvento(int id);
+    boolean removeEvent(int id);
 
-    boolean compartilhar(IUsuario usuario);
+    boolean share(IUsuario usuario);
 
-    boolean criarEvento(LocalDate data, String description);
+    boolean createEvent(LocalDate data, String description);
 
-    void imprimir();
+    void printAgenda();
 
     String getName();
 
     int getID();
 
-    void exibirEventos();
+    void showEvents();
 
     ArrayList<IUsuario> getSharedUsers();
 

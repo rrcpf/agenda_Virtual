@@ -1,9 +1,6 @@
 public class Autenticador {
 
-    public Autenticador() {
-    }
-
-    public static boolean autenticar(String p1, String p2) {
-        return p1.equals(p2);
+    public static boolean autenticar(String passwordTyped, String password) {
+        return passwordTyped.equals(password);
     }
 }

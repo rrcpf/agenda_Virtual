@@ -17,7 +17,7 @@ public class Evento implements IEvento {
     }
 
     @Override
-    public void imprimir() {
+    public void printEvent() {
         System.out.println(this.id + " - " + this.data.toString() + " - "  + this.description + "\n");
     }
 }

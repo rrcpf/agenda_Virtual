@@ -7,11 +7,15 @@ public class UserData {
 
     public UserData() {
         usuarios = new  ArrayList<IUsuario>();
+        initialize();
+    }
+
+    private void initialize(){
         IUsuario usuario = new Usuario("teste", "1", "teste@email.com", 0);
         this.usuarios.add(usuario);
     }
 
-    public IUsuario autenticar(String username, String password) {
+    public IUsuario autenticate(String username, String password) {
         Optional<IUsuario> usuario = this.usuarios.stream().filter(f -> f.getUsername().equals(username)).findFirst();
         if (usuario == null) {
             return null;
@@ -52,14 +56,7 @@ public class UserData {
     }
 
     public void removeUser(int id){
-        /*Iterator<IUsuario> it = this.usuarios.iterator();
-        while(it.hasNext()) {
-        IUsuario i = it.next();
-        if(i.username == username) {
-            it.remove();
-            break;
-            }
-        }*/
+
         this.usuarios.removeIf(u -> u.getId() == id);
     }
 }
